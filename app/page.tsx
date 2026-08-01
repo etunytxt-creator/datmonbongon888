@@ -507,9 +507,8 @@ ${sideLines}
   }, 0);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-neutral-900 font-sans text-slate-800 p-2 sm:p-4">
-      <div className="relative w-full max-w-sm h-[800px] bg-slate-50 rounded-[40px] shadow-2xl overflow-hidden border-8 border-neutral-800 flex flex-col justify-between">
-        
+  <div className="w-full h-[100dvh] bg-slate-50 font-sans text-slate-800 overflow-hidden">
+    <div className="relative w-full h-full max-w-md mx-auto bg-slate-50 overflow-hidden flex flex-col justify-between select-none">
         {/* HÌNH NỀN CHÌM */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.08]">
           <img src={LOGO_URL} alt="Background Watermark" className="w-80 h-80 object-contain" />
