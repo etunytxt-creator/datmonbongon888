@@ -324,7 +324,7 @@ export default function Home() {
   };
 
   // Tính giá đơn giá hiện tại
-  const isBunChaDish = currentDish?.isBunCha || currentDish?.id === 'cha-cham';
+  const isBunChaDish = (currentDish as any)?.isBunCha || currentDish?.id === 'cha-cham';
   let calculatedUnitPrice = currentDish ? currentDish.price : 40000;
 
   if (activeTab === 'lau') {
