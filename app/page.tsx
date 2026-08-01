@@ -27,8 +27,19 @@ async function sendTelegramNotification(message: string) {
   }
 }
 
+// DEFINITION OF ITEM TYPE FOR TYPESCRIPT SAFETY
+interface MenuItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category?: string;
+  isBunCha?: boolean;
+}
+
 // MENU ĂN SÁNG
-const BREAKFAST_DISHES = [
+const BREAKFAST_DISHES: MenuItem[] = [
   {
     id: 'dac-biet',
     name: 'Đặc Biệt (Đủ loại bò)',
@@ -109,8 +120,8 @@ const BREAKFAST_DISHES = [
   },
 ];
 
-// MENU COMBO (MỚI THÊM)
-const COMBO_DISHES = [
+// MENU COMBO
+const COMBO_DISHES: MenuItem[] = [
   {
     id: 'combo-2-nguoi',
     name: 'Combo Hẹn Hò (2 Người)',
@@ -135,7 +146,7 @@ const COMBO_DISHES = [
 ];
 
 // MENU ĐỒ UỐNG
-const DRINK_DISHES = [
+const DRINK_DISHES: MenuItem[] = [
   { id: 'pepsi', name: 'Pepsi', price: 15000, category: 'Đóng chai', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=800', description: 'Pepsi ướp lạnh sảng khoái' },
   { id: 'rockstar', name: 'Nước Tăng Lực Rockstar', price: 15000, category: 'Đóng chai', image: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=800', description: 'Tăng lực bù đắp năng lượng' },
   { id: 'aquafina', name: 'Nước Suối Aquafina', price: 10000, category: 'Đóng chai', image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=800', description: 'Nước khoáng tinh khiết 500ml' },
@@ -157,7 +168,7 @@ const DRINK_DISHES = [
 ];
 
 // MENU ĐỒ NHẬU
-const NHAN_DISHES = [
+const NHAN_DISHES: MenuItem[] = [
   { id: 'bo-nuong-ngu-vi', name: 'Bò Nướng Ngũ Vị', price: 120000, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800', description: 'Thịt bò tươi ướp gia vị ngũ vị hương thơm lừng nướng xèo' },
   { id: 'bo-mua-lua', name: 'Bò Múa Lửa', price: 150000, image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800', description: 'Món bò xào lửa lớn giữ trọn độ mềm mọng và hương vị đặc trưng' },
   { id: 'bo-tam-thao-moc', name: 'Bò Tắm Thảo Mộc', price: 100000, image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800', description: 'Thịt bò chần/hầm nhẹ cùng các loại thảo mộc thanh ngọt' },
@@ -169,8 +180,8 @@ const NHAN_DISHES = [
   { id: 'tim-cat-xao', name: 'Tim Cật Xào', price: 120000, image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800', description: 'Tim cật tươi xào giòn sần sật béo ngậy' },
 ];
 
-// MENU LẨU (GIÁ MẶC ĐỊNH LẨU UYÊN ƯƠNG)
-const LAU_DISHES = [
+// MENU LẨU
+const LAU_DISHES: MenuItem[] = [
   { id: 'lau-bo-888', name: 'Lẩu Bò 888', price: 252513.25, image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800', description: 'Nước dùng độc quyền 888, đầy đủ bắp bò, nạm, gầu, bò viên tươi' },
   { id: 'lau-bo-thuoc-bac', name: 'Lẩu Bò Thuốc Bắc Đông Trùng', price: 252513.25, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800', description: 'Nước lẩu tiềm thuốc bắc và đông trùng hạ thảo đại bổ, thơm dịu' },
   { id: 'lau-bo-nhung-dam', name: 'Lẩu Bò Nhúng Dấm', price: 252513.25, image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800', description: 'Nước dùng chua thanh vị dấm mần, nhúng bò tái ăn kèm bánh tráng rau sống' },
@@ -241,7 +252,7 @@ export default function Home() {
   const [selectedOnion, setSelectedOnion] = useState('Có hành');
   const [selectedPortion, setSelectedPortion] = useState('Bình thường');
 
-  // Tùy chọn Lẩu (Uyên Ương / Lẩu Lớn)
+  // Tùy chọn Lẩu
   const [selectedLauOption, setSelectedLauOption] = useState<string>('uyen-uong');
 
   const [selectedExtras, setSelectedExtras] = useState<{ [key: string]: number }>({});
@@ -254,7 +265,7 @@ export default function Home() {
 
   const [quickSides, setQuickSides] = useState<{ [key: string]: number }>({});
 
-  const getCurrentDishes = () => {
+  const getCurrentDishes = (): MenuItem[] => {
     switch (activeTab) {
       case 'breakfast': return BREAKFAST_DISHES;
       case 'combo': return COMBO_DISHES;
@@ -323,8 +334,8 @@ export default function Home() {
     });
   };
 
-  // Tính giá đơn giá hiện tại
-  const isBunChaDish = (currentDish as any)?.isBunCha || currentDish?.id === 'cha-cham';
+  // Safe checks with TypeScript Interface
+  const isBunChaDish = currentDish?.isBunCha || currentDish?.id === 'cha-cham';
   let calculatedUnitPrice = currentDish ? currentDish.price : 40000;
 
   if (activeTab === 'lau') {
@@ -423,7 +434,6 @@ export default function Home() {
   const totalCartAmount = cart.reduce((sum, item) => sum + item.finalPrice, 0);
 
   const handleCheckout = () => {
-    // ── GỬI THÔNG BÁO TELEGRAM ──
     const now = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
     const tableNum = new URLSearchParams(window.location.search).get('ban') || '?';
     const totalAmount = cart.reduce((sum, item) => sum + item.finalPrice, 0);
@@ -447,7 +457,6 @@ ${itemLines}
   };
 
   const closeThankYouPopup = () => {
-    // Gửi đồ ăn kèm nếu có chọn thêm
     const hasQuickSides = Object.values(quickSides).some((v) => v > 0);
     if (hasQuickSides) {
       const now = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
@@ -588,7 +597,7 @@ ${sideLines}
                 <div>
                   <div className="w-full h-24 rounded-xl overflow-hidden mb-2 relative">
                     <img src={dish.image} alt={dish.name} className="w-full h-full object-cover" />
-                    {'category' in dish && (
+                    {dish.category && (
                       <span className="absolute top-1 left-1 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-md font-bold">
                         {dish.category}
                       </span>
