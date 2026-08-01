@@ -506,9 +506,10 @@ ${sideLines}
     return sum + (itemObj ? itemObj.price * count : 0);
   }, 0);
 
- return (
-  <div className="w-full min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden select-none">
-    <div className="relative w-full max-w-md mx-auto min-h-screen bg-slate-50 overflow-hidden flex flex-col justify-between pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-neutral-900 font-sans text-slate-800 p-2 sm:p-4">
+      <div className="relative w-full max-w-sm h-[800px] bg-slate-50 rounded-[40px] shadow-2xl overflow-hidden border-8 border-neutral-800 flex flex-col justify-between">
+        
         {/* HÌNH NỀN CHÌM */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.08]">
           <img src={LOGO_URL} alt="Background Watermark" className="w-80 h-80 object-contain" />
@@ -666,11 +667,19 @@ ${sideLines}
                   opacity: { duration: 0.15 },
                   scale: { duration: 0.15 },
                 }}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
+                drag // Bật tính năng kéo cả 2 chiều (ngang và dọc)
+                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
                 dragSnapToOrigin={true}
-                dragElastic={0.08}
-                onDragEnd={handleDragEnd}
+                dragElastic={0.15}
+                onDragEnd={(event, info) => {
+                  // Nếu người dùng vuốt xuống dưới quá 150px thì đóng popup
+                  if (info.offset.y > 150) {
+                    setSelectedDishIndex(null);
+                  } else {
+                    // Nếu không vuốt xuống đủ khoảng cách, thực hiện logic vuốt trái/phải cũ
+                    handleDragEnd(event, info);
+                  }
+                }}
                 className="w-full h-full flex flex-col justify-between cursor-grab active:cursor-grabbing touch-pan-y"
               >
                 <div className="w-full h-[50%] relative bg-slate-900 overflow-hidden">
@@ -749,8 +758,15 @@ ${sideLines}
                         {activeTab === 'breakfast' || activeTab === 'lau'
                           ? 'TÙY CHỌN & ĐẶT MÓN'
                           : 'THÊM TRỰC TIẾP VÀO GIỎ'}
+
                       </span>
                     </button>
+<button
+  onClick={() => setSelectedDishIndex(null)}
+  className="w-full py-3 bg-gray-50 text-gray-700 font-bold rounded-2xl active:scale-95 transition"
+>
+  Quay về trang chọn món
+</button>
                   </div>
                 </div>
               </motion.div>
