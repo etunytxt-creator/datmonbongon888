@@ -1,16 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-// Cấu hình tràn màn hình điện thoại (Mobile Fullscreen / Dynamic Viewport)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  viewportFit: "cover",
+  viewportFit: "cover", // 
 };
 
-// Cấu hình chạy ứng dụng như App nguyên bản (PWA / Web App Capable)
 export const metadata: Metadata = {
   title: "Bò Ngon 888 - Menu Gọi Món",
   description: "Phở, Combo, Lẩu, Nướng - Bò tươi mỗi ngày",
@@ -28,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className="antialiased select-none touch-manipulation">
+      <body className="antialiased select-none touch-manipulation bg-slate-50">
         {children}
       </body>
     </html>

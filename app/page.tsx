@@ -506,9 +506,9 @@ ${sideLines}
     return sum + (itemObj ? itemObj.price * count : 0);
   }, 0);
 
-  return (
-  <div className="w-full h-[100dvh] bg-slate-50 font-sans text-slate-800 overflow-hidden">
-    <div className="relative w-full h-full max-w-md mx-auto bg-slate-50 overflow-hidden flex flex-col justify-between select-none">
+ return (
+  <div className="fixed inset-0 w-full h-full bg-slate-50 font-sans text-slate-800 overflow-hidden select-none">
+    <div className="relative w-full h-full max-w-md mx-auto bg-slate-50 overflow-hidden flex flex-col justify-between pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
         {/* HÌNH NỀN CHÌM */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.08]">
           <img src={LOGO_URL} alt="Background Watermark" className="w-80 h-80 object-contain" />
